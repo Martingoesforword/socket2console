@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发送者</title>
+</head>
+<body>
+<h1 style="display: inline-block" >id:</h1>
+<div style="display: inline-block" id="id"></div>
+<div  style="display: block" >
+    <input style="display: inline-block" id="logTest" type="text">
+    <input style="display: inline-block" type="button" onclick="connectSender()" value="发送"/>
+</div>
+
+<script>
+    var connectSender = function () {
+        var logTest = document.getElementById("logTest").value;
+        if(ws) {
+            ws.send(JSON.stringify({
+                type: "log",
+                body: logTest,
+            }))
+        }
+    }
+    //提供web界面，填写唯一id，对接客户端日志发送数据流
+    if ("WebSocket" in window)
+    {
+        // 打开一个 web socket
+        var ws = new WebSocket("ws://localhost:8000");
+
+        ws.onmessage = function (evt) {
+            var data = JSON.parse(evt.data);
+            if(data.type === "id") {
+                var id = data.id;
+                document.getElementById("id").innerText = id;
+            }
+        }
+
+        ws.onclose = function()
+        {
+            // 关闭 websocket
+            alert("连接已关闭...");
+        };
+    }
+
+    else
+    {
+        // 浏览器不支持 WebSocket
+        alert("您的浏览器不支持 WebSocket!");
+    }
+    //连接后端接口，id
+    //接收后端信息接口，message
+    //
+</script>
+
+</body>
+</html>
