@@ -13,6 +13,9 @@
 </div>
 
 <script>
+    var config = {
+        serverAddr: "www.martinsong.org:8086"
+    }
     var connectSender = function () {
         var toId = document.getElementById("toId").value;
         if(ws) {
@@ -28,7 +31,7 @@
     {
 
         // 打开一个 web socket
-        var ws = new WebSocket("ws://localhost:8000");
+        var ws = new WebSocket("ws://"+config.serverAddr);
 
 
         ws.onmessage = function (evt)
