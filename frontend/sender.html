@@ -13,8 +13,9 @@
 </div>
 
 <script>
+    var isLocalDev = false;
     var config = {
-        serverAddr: "www.martinsong.org:8086"
+        serverAddr: isLocalDev ? "localhost:8000" : "www.martinsong.org:8086",
     }
     var connectSender = function () {
         var logTest = document.getElementById("logTest").value;

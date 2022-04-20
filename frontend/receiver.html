@@ -13,8 +13,9 @@
 </div>
 
 <script>
+    var isLocalDev = false;
     var config = {
-        serverAddr: "www.martinsong.org:8086"
+        serverAddr: isLocalDev ? "localhost:8000" : "www.martinsong.org:8086",
     }
     var connectSender = function () {
         var toId = document.getElementById("toId").value;
@@ -22,18 +23,15 @@
             ws.send(JSON.stringify({
                 type: "bindId",
                 id: parseInt(toId),
-            }))
+            }));
         }
     }
 
     //提供web界面，填写唯一id，对接客户端日志发送数据流
     if ("WebSocket" in window)
     {
-
         // 打开一个 web socket
         var ws = new WebSocket("ws://"+config.serverAddr);
-
-
         ws.onmessage = function (evt)
         {
             var data = JSON.parse(evt.data);
@@ -49,6 +47,14 @@
             else if(data.type === "id") {
                 var id = data.id;
                 document.getElementById("id").innerText = id;
+            }
+            else if(data.type === "connected") {
+                var id = data.id;
+                alert("已连接客户端ID："+id);
+            }
+            else if(data.type === "no_connected") {
+                var id = data.id;
+                alert("客户端ID："+id+"不存在");
             }
         };
 

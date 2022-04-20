@@ -40,6 +40,16 @@ wss.on('connection',function(ws){  //在connection事件中，回调函数会传
             var bindId = data["id"];
             if(ID_POOL.pool[bindId]) {
                 id2ReceiverMap[bindId] = ws;
+                ws.send(ws.send(JSON.stringify({
+                    "type": "connected",
+                    "id": bindId,
+                })));
+            }
+            else {
+                ws.send(ws.send(JSON.stringify({
+                    "type": "no_connected",
+                    "id": bindId,
+                })));
             }
         }
         else if(data.type === "log") {
