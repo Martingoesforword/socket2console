@@ -44,12 +44,14 @@ wss.on('connection',function(ws){  //在connection事件中，回调函数会传
                     "type": "connected",
                     "id": bindId,
                 })));
+                console.log(`receiver ip: `+id+` bind ip: `, bindId);
             }
             else {
                 ws.send(ws.send(JSON.stringify({
                     "type": "no_connected",
                     "id": bindId,
                 })));
+                console.error(`receiver ip try: `+id+` bind ip: `, bindId+" failed");
             }
         }
         else if(data.type === "log") {
